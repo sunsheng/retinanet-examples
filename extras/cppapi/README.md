@@ -50,6 +50,18 @@ Run a test inference (default output if none provided: "detections.png"):
 infer{.exe} engine.plan image.jpg [<OUTPUT>.png]
 ```
 
+```
+cd /workspace/retinanet/models/
+odtk export ./retinanet_rn18fpn/retinanet_rn18fpn.pth ./retinanet_rn18fpn/retinanet_rn18fpn.onnx
+
+mkdir /workspace/retinanet/extras/cppapi/build
+cd /workspace/retinanet/extras/cppapi/build
+cmake .. && make -j
+./export  /workspace/retinanet/models/retinanet_rn18fpn/retinanet_rn18fpn.onnx retinanet_rn18fpn.plan
+trtexec --loadEngine=retinanet_rn18fpn.plan --plugins=./libretinanet.so --fp16
+
+```
+
 Note: make sure the TensorRT, CuDNN and OpenCV libraries are available in your environment and path.
 
 We have verified these steps with the following configurations:
