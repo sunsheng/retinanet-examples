@@ -12,6 +12,11 @@ if(DEFINED TensorRT_DIR)
 endif(DEFINED TensorRT_DIR)
 include_directories(${CUDA_INCLUDE_DIRS})
 
+if(NOT DEFINED ARCH)
+  set(ARCH "sm_70")
+endif(NOT DEFINED ARCH)
+set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -arch ${ARCH} -std=c++14 --expt-extended-lambda")
+
 add_library(retinanet SHARED
   ../../csrc/cuda/decode.h
   ../../csrc/cuda/decode.cu
